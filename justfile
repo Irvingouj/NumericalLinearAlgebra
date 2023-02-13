@@ -13,3 +13,6 @@ echo target:
 commit message:
     git add * 
     git commit -m "Add {{message}}"
+
+push:
+    git push
