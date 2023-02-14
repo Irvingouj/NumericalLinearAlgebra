@@ -17,17 +17,18 @@ class Matrix:
         return res
 
     def __eq__(self, __o: object) -> bool:
-        if isinstance(__o, Matrix):
-            if self.num_of_row == __o.num_of_row and self.num_of_col == __o.num_of_col:
-                for i in range(self.num_of_row):
-                    for j in range(self.num_of_col):
-                        if self.matrix[i][j] != __o.matrix[i][j]:
-                            return False
-                return True
-            else:
-                return False
-        else:
+        
+        if  not self.num_of_row == __o.num_of_row or not self.num_of_col == __o.num_of_col:
+            print(colored("Error: Matrix not equal in size","red"))
             return False
+            
+        for i in range(self.num_of_row):
+            for j in range(self.num_of_col):
+                if not np.isclose(self.matrix[i][j],__o.matrix[i][j],0.000001):
+                    text = "Error: Matrix not equal at row " + str(i) + " col " + str(j) + " " + str(self.matrix[i][j]) + " " + str(__o.matrix[i][j])
+                    print(colored(text,"red"))
+                    return False
+        return True
 
     def print(self,name:str = ""):
         print(name+":")
@@ -41,15 +42,37 @@ class Matrix:
         return self.matrix[row][col]
 
     def __mul__(self, other):
-        if self.num_of_col == other.num_of_row:
-            res = Matrix(self.num_of_row, other.num_of_col)
+        if isinstance(other, Matrix) :
+            if self.num_of_col == other.num_of_row:
+                res = Matrix(self.num_of_row, other.num_of_col)
+                for i in range(self.num_of_row):
+                    for j in range(other.num_of_col):
+                        res.matrix[i][j] = sum([self.matrix[i][k] * other.matrix[k][j] for k in range(self.num_of_col)])
+                return res
+            else:
+                raise Exception("Dimension Error")
+        elif isinstance(other, int):
+            res = Matrix(self.num_of_row, self.num_of_col)
             for i in range(self.num_of_row):
-                for j in range(other.num_of_col):
-                    res.matrix[i][j] = sum([self.matrix[i][k] * other.matrix[k][j] for k in range(self.num_of_col)])
+                for j in range(self.num_of_col):
+                    res.matrix[i][j] = self.matrix[i][j] * other
             return res
         else:
+            raise Exception("Type Error: "+str(type(other)) + " self type: " + str(type(self)) + " Matrix " + str(Matrix))
+        
+    def __sub__(self,other):
+        if not isinstance(other, Matrix):
+            raise Exception("Type Error: "+str(type(other)) + " self type: " + str(type(self)) + " Matrix " + str(Matrix))
+
+        if not self.num_of_row == other.num_of_row or not self.num_of_col == other.num_of_col:
             raise Exception("Dimension Error")
         
+        res = Matrix(self.num_of_row, self.num_of_col)
+        for i in range(self.num_of_row):
+            for j in range(self.num_of_col):
+                res.matrix[i][j] = self.matrix[i][j] - other.matrix[i][j]
+        return res
+
     def copy(self):
         res = Matrix(self.num_of_row, self.num_of_col)
         for i in range(self.num_of_row):
@@ -87,6 +110,12 @@ class Matrix:
                 if not np.isclose(self.matrix[i][j],0,atol=1e-8):
                     return False
         return True
+    
+    def inverse(self):
+        res = self.copy()
+        res.matrix = np.linalg.inv(res.matrix)
+        return res
+            
 
     
     def __add__(self,other):

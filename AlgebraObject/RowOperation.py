@@ -13,6 +13,20 @@ class RowOperation(ABC):
 
 
 class RowAdd(RowOperation):
+
+    class RowAddMatrix(Matrix):
+        def inverse(self):
+            return Matrix.Identity_Matrix(self.num_of_row)*2 - self
+        
+        def __init__(self, n ,op : 'RowAdd') -> None:
+            super().__init__(n,n)
+            self.matrix = Matrix.Identity_Matrix(n).matrix
+            self.matrix[op.row2][op.row1] = op.scalar
+        
+        @classmethod
+        def Identity_Matrix(cls, size: int):
+            return cls(size,RowAdd(0,0,0))
+
     # add row one*scalar to row two
     def __init__(self, row1:int, row2:int, scalar:float) -> None:
         self.row1 = row1
@@ -24,15 +38,22 @@ class RowAdd(RowOperation):
         return matrix
     
     def to_matrix(self,size:int) -> Matrix:
-        matrix = Matrix.Identity_Matrix(size)
-        matrix.set_value(self.row2,self.row1,self.scalar)
-        return matrix
+        return RowAdd.RowAddMatrix(size,self)
     
     def inverse(self):
         return RowAdd(self.row1,self.row2,-self.scalar)
     
 
 class RowSwap(RowOperation):
+    
+    class RowSwapMatrix(Matrix):
+        def inverse(self):
+            return self.transpose()
+        def __init__(self, n, operation:'RowSwap') -> None:
+            super().__init__(n,n)
+            self.matrix = Matrix.Identity_Matrix(n).matrix
+            self.matrix[operation.row1], self.matrix[operation.row2] = self.matrix[operation.row2], self.matrix[operation.row1] 
+        
     def __init__(self, row1:int, row2:int) -> None:
         self.row1 = row1
         self.row2 = row2
@@ -41,14 +62,13 @@ class RowSwap(RowOperation):
         matrix.matrix[self.row1], matrix.matrix[self.row2] = matrix.matrix[self.row2], matrix.matrix[self.row1]
         return matrix
 
-    def to_matrix(self,size) -> Matrix:
-        res = Matrix.Identity_Matrix(size)
-        res.matrix[self.row1], res.matrix[self.row2] = res.matrix[self.row2], res.matrix[self.row1]
-        return res
+    def to_matrix(self,size) -> RowSwapMatrix:
+        return RowSwap.RowSwapMatrix(size,self)
     
     def inverse(self):
         return RowSwap(self.row2,self.row1)
     
+
 
 
 

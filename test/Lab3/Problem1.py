@@ -43,7 +43,7 @@ class Problem1Test(unittest.TestCase):
 
         (L*U).print("L*U")
 
-        [self.assertAlmostEqual((L*U).get_value(i,j),ori.get_value(i,j)) for i in range(ori.num_of_row) for j in range(ori.num_of_col)]
+        self.assertTrue((L*U) == ori)
         
 
     def test_LUDecomposition_repeat(self):
