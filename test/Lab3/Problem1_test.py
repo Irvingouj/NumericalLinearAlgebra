@@ -1,8 +1,8 @@
 import unittest
-from NumericalLinearAlgebra.AlgebraObject.Matrix import Matrix
-from NumericalLinearAlgebra.AlgebraObject.Vector import Vector
-from NumericalLinearAlgebra.Lab2 import TriangUp, TriangDown
-from NumericalLinearAlgebra.Lab3.Problem1 import LUDecomposition, solve_with_LU
+from AlgebraObject.Matrix import Matrix
+from AlgebraObject.Vector import Vector
+from Lab2 import TriangUp, TriangDown
+from Lab3.Problem1 import LUDecomposition, solve_with_LU
 import numpy as np
 
 

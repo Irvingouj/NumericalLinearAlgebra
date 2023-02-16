@@ -25,8 +25,10 @@ class RowAdd(RowOperation):
         
         @classmethod
         def Identity_Matrix(cls, size: int):
-            return cls(size,RowAdd(0,0,0))
-
+            res = cls(size,RowAdd(0,0,0))
+            for i in range(size):
+                res.matrix[i][i] = 1
+            return res
     # add row one*scalar to row two
     def __init__(self, row1:int, row2:int, scalar:float) -> None:
         self.row1 = row1

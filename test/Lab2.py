@@ -1,7 +1,7 @@
 import unittest
-from NumericalLinearAlgebra.AlgebraObject.Matrix import Matrix
-from NumericalLinearAlgebra.AlgebraObject.Vector import Vector
-from NumericalLinearAlgebra.Lab2 import TriangUp, TriangDown
+from AlgebraObject.Matrix import Matrix
+from AlgebraObject.Vector import Vector
+from Lab2 import TriangUp, TriangDown
 
 # Unit test for TriangUp and TriangDown
 class TestTriangUpAndDown(unittest.TestCase):

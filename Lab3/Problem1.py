@@ -1,10 +1,11 @@
 from AlgebraObject.Matrix import Matrix
 from AlgebraObject.RowOperation import RowAdd, RowSwap
 from AlgebraObject.Vector import Vector
-from NumericalLinearAlgebra.Lab2 import TriangDown, TriangUp
+from Lab2 import TriangDown, TriangUp
 
 def LUDecomposition(A:Matrix):
     # assume A is a square matrix and diagonal elements are not zero
+    A = A.copy()
     n = A.num_of_row
     I = Matrix.Identity_Matrix(n)
     for i in range(n):

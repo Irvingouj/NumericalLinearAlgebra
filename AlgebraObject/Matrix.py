@@ -5,10 +5,11 @@ from termcolor import colored
 import numpy as np
 
 class Matrix:
-    def __init__(self, num_of_row:int,num_of_col:int) -> None:
+    def __init__(self, num_of_row:int,num_of_col:int,name="") -> None:
         self.num_of_row = num_of_row
         self.num_of_col = num_of_col
         self.matrix:List[List[float]] = [[0 for i in range(num_of_col)] for j in range(num_of_row)]
+        self.name = name
 
     def __str__(self) -> str:
         res = ""
@@ -31,7 +32,10 @@ class Matrix:
         return True
 
     def print(self,name:str = ""):
-        print(name+":")
+        if self.name != "":
+            print(self.name)
+        else:
+            print(name)
         for i in range(self.num_of_row):
             print([round(ele,3) for ele in self.matrix[i]])
     
@@ -115,6 +119,10 @@ class Matrix:
         res = self.copy()
         res.matrix = np.linalg.inv(res.matrix)
         return res
+    
+    def add_name(self, name:str) -> 'Matrix':
+        self.name = name
+        return self
             
 
     
