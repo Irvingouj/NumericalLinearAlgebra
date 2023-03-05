@@ -14,3 +14,5 @@ $\frac{(n)*(n-1)}{2} * (3+n) \in O(n^3)$
 1）when running the problem against the matrix, the problem is that top-left sub matrix with dimension 2 is singular, so the principle minor of order k is zero
 
 # Problem 4
+
+2) the complexity is 1+2+3+4+.....+n, which sums up to $O(n^2)$
