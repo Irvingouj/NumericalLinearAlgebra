@@ -11,6 +11,6 @@ if we multiply them together, we will have
 $\frac{(n)*(n-1)}{2} * (3+n) \in O(n^3)$
 
 # Problem 3
-1）when running the problem against the matrix, the problem is that top-left sub matrix with dimension 2 is singular, so the pricple minor of order k is zero
+1）when running the problem against the matrix, the problem is that top-left sub matrix with dimension 2 is singular, so the principle minor of order k is zero
 
-2）
+# Problem 4

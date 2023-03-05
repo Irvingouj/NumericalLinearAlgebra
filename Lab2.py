@@ -1,5 +1,5 @@
-from AlgebraObject.Matrix import Matrix
-from AlgebraObject.Vector import Vector
+from NumericalLinearAlgebra.AlgebraObject.Matrix import Matrix
+from NumericalLinearAlgebra.AlgebraObject.Vector import Vector
 
 # solve Ax=b
 def TriangUp(A:Matrix,b:Vector):

@@ -1,3 +1,4 @@
+from typing import List
 from AlgebraObject.Matrix import Matrix
 import random
 class Vector(Matrix):
@@ -16,6 +17,10 @@ class Vector(Matrix):
 
     def __eq__(self, __o: object) -> bool:
         return super().__eq__(__o)
+    
+    def __getitem__(self, key):
+        return self.get(key)
+        
     @classmethod
     def Zero_Vector(cls, size:int):
         return cls([0 for i in range(size)])

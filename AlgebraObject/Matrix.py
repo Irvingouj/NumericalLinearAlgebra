@@ -46,7 +46,7 @@ class Matrix:
         return self.matrix[row][col]
 
     def __mul__(self, other):
-        if isinstance(other, Matrix) :
+        if 'Matrix' in other.__class__.__name__ :
             if self.num_of_col == other.num_of_row:
                 res = Matrix(self.num_of_row, other.num_of_col)
                 for i in range(self.num_of_row):
@@ -55,6 +55,16 @@ class Matrix:
                 return res
             else:
                 raise Exception("Dimension Error")
+            
+        elif 'Vector' in other.__class__.__name__:
+            from AlgebraObject.Vector import Vector;
+            if self.num_of_col == other.num_of_row:
+                res = Vector([0 for i in range(self.num_of_row)])
+                for i in range(self.num_of_row):
+                    for j in range(other.num_of_col):
+                        res.matrix[i][j] = sum([self.matrix[i][k] * other.matrix[k][j] for k in range(self.num_of_col)])
+                return res
+            
         elif isinstance(other, int):
             res = Matrix(self.num_of_row, self.num_of_col)
             for i in range(self.num_of_row):
@@ -114,7 +124,20 @@ class Matrix:
                 if not np.isclose(self.matrix[i][j],0,atol=1e-8):
                     return False
         return True
+
+    def is_symmetric(self):
+        if not self.is_square():
+            return False
+        for i in range(self.num_of_row):
+            for j in range(self.num_of_col):
+                if not np.isclose(self.matrix[i][j],self.matrix[j][i],atol=1e-8):
+                    return False
+        return True
     
+    def is_positive_definite(self):
+        eigvals, _ = np.linalg.eig(np.array(self.matrix))
+        return all(eigvals > 0)
+        
     def inverse(self):
         res = self.copy()
         res.matrix = np.linalg.inv(res.matrix)
@@ -123,6 +146,9 @@ class Matrix:
     def add_name(self, name:str) -> 'Matrix':
         self.name = name
         return self
+    
+    def __getitem__(self, key):
+        return self.matrix[key]
             
 
     
