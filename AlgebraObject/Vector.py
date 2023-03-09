@@ -34,3 +34,4 @@ class Vector(Matrix):
     def Random_Vector_Int(cls, size:int):
         return cls([random.randint(-10,10) for i in range(size)])
     
+    

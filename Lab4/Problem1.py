@@ -6,11 +6,30 @@ from NumericalLinearAlgebra.Lab3.Problem4 import CHOLfact,inverseCol
 from typing import Callable, Tuple
 import math
 
-def f (x:float)->float:
-    return math.pi**2*math.sin(math.pi*x)
 
+f = lambda x: math.pi**2*math.sin(math.pi*x)
 alpha = 0
 beta = 0
+
+def solve_triangle_down_band(A:Matrix,b:Vector,width:int)->Vector:
+    n = A.num_of_row
+    x = Vector.Zero_Vector(n)
+    for i in range(n):
+        x.set(i,b.get(i))
+        for j in range(max(0,i-width),i):
+            x.set(i,x.get(i) - A.get(i,j)*x.get(j))
+        x.set(i,x.get(i)/A.get(i,i))
+    return x
+
+def solve_triangle_up_band(A:Matrix,b:Vector,width:int)->Vector:
+    n = A.num_of_row
+    x = Vector.Zero_Vector(n)
+    for i in range(n-1,-1,-1):
+        x.set(i,b.get(i))
+        for j in range(i+1,min(n,i+width+1)):
+            x.set(i,x.get(i) - A.get(i,j)*x.get(j))
+        x.set(i,x.get(i)/A.get(i,i))
+    return x
 
 def poisson1D(n:int)-> Matrix :
     dimension = n-1
@@ -42,10 +61,12 @@ def solve_with_LU(n:int,f:Callable,alpha:int,beta:int) -> Tuple[Vector,float]:
     b = source(n,f,alpha,beta)
     
     lu_start_time = time.process_time()
-    res = p1.solve_with_LU(A,b)
+    L,U = p1.LUDecomposition(A)
+    y = solve_triangle_down_band(L,b,1)
+    x = solve_triangle_up_band(U,y,1)
     lu_end_time = time.process_time()
      
-    return res,lu_end_time - lu_start_time;
+    return x,lu_end_time - lu_start_time;
 
 
 def solve_with_Cholesky(n:int,f:Callable,alpha:int,beta:int):
@@ -54,8 +75,17 @@ def solve_with_Cholesky(n:int,f:Callable,alpha:int,beta:int):
     
     chol_start_time = time.process_time()
     L, factorization_time = CHOLfact(A)
-    res = inverseCol(L,b)
+    y = solve_triangle_down_band(L,b,1)
+    x = solve_triangle_up_band(L.transpose(),y,1)
     chol_end_time = time.process_time()
     
-    return res,chol_end_time - chol_start_time + factorization_time;
+    return x,chol_end_time - chol_start_time + factorization_time;
+
+def compare_time(n:int,f:Callable,alpha:int,beta:int):
+    lu_res,lu_time = solve_with_LU(n,f,alpha,beta)
+    chol_res,chol_time = solve_with_Cholesky(n,f,alpha,beta)
+    print("LU time: ",lu_time)
+    print("Cholesky time: ",chol_time)
+    
+    return lu_time,chol_time
 

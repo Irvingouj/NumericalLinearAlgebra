@@ -45,6 +45,9 @@ class Matrix:
     def get_value(self, row:int, col:int) -> float:
         return self.matrix[row][col]
 
+    def get(self, row:int, col:int) -> float:
+        return self.get_value(row,col)
+
     def __mul__(self, other):
         if 'Matrix' in other.__class__.__name__ :
             if self.num_of_col == other.num_of_row:

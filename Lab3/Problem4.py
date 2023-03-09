@@ -8,13 +8,6 @@ from Lab2 import TriangDown, TriangUp
 
 def CHOLfact(A:Matrix)-> Tuple[Matrix,int]:
     # A is a symmetric positive definite matrix
-    if not A.is_square():
-        raise ValueError("Matrix is not square")
-    if not A.is_symmetric():
-        raise ValueError("Matrix is not symmetric")
-    if not A.is_positive_definite():
-        raise ValueError("Matrix is not positive definite")
-    
     n = A.num_of_row
     L = Matrix(n,n)
     start_time = time.process_time()
@@ -30,9 +23,6 @@ def CHOLfact(A:Matrix)-> Tuple[Matrix,int]:
 
 def inverseCol(L:Matrix,b:Vector)->Vector:
     # L is a lower triangular matrix
-    if not L.is_lower_triangular():
-        raise ValueError("Matrix is not lower triangular")
-    
     y = TriangDown(L,b)
     
     return TriangUp(L.transpose(),y)

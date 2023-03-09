@@ -3,8 +3,6 @@ from NumericalLinearAlgebra.AlgebraObject.Vector import Vector
 
 # solve Ax=b
 def TriangUp(A:Matrix,b:Vector):
-    if not A.is_upper_triangular():
-        raise Exception("A is not upper triangular")
     n = A.num_of_row
 
     x = Vector([0 for i in range(n)])

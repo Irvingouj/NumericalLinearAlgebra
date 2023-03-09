@@ -1,0 +1,10 @@
+at n = 10 LU time = 0.0 Cholesky time = 0.0
+at n = 60 LU time = 0.015625 Cholesky time = 0.03125
+at n = 110 LU time = 0.09375 Cholesky time = 0.125
+at n = 160 LU time = 0.28125 Cholesky time = 0.4375
+at n = 210 LU time = 0.640625 Cholesky time = 0.953125
+at n = 260 LU time = 1.234375 Cholesky time = 1.796875
+at n = 310 LU time = 2.21875 Cholesky time = 3.078125
+at n = 360 LU time = 3.3125 Cholesky time = 4.734375
+at n = 410 LU time = 4.984375 Cholesky time = 6.796875
+at n = 460 LU time = 7.1875 Cholesky time = 9.9375
