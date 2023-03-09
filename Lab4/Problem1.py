@@ -1,9 +1,9 @@
 import time
 from NumericalLinearAlgebra.AlgebraObject.Matrix import Matrix
 from NumericalLinearAlgebra.AlgebraObject.Vector import Vector
-from NumericalLinearAlgebra.Lab3.Problem1 import solve_with_LU
+import NumericalLinearAlgebra.Lab3.Problem1 as p1
 from NumericalLinearAlgebra.Lab3.Problem4 import CHOLfact,inverseCol
-from typing import Callable
+from typing import Callable, Tuple
 import math
 
 def f (x:float)->float:
@@ -17,32 +17,32 @@ def poisson1D(n:int)-> Matrix :
     A = Matrix(dimension,dimension)
     
     #fill up A diagnoal with 2
-    [A[i][i].set_value(2) for i in range(dimension)]
+    [A.set_value(i,i,2) for i in range(dimension)]
     #fill up A off-diagonal with -1
-    [A[i][i+1].set_value(-1) for i in range(dimension-1)]
-    [A[i+1][i].set_value(-1) for i in range(dimension-1)]
+    [A.set_value(i,i+1,-1) for i in range(dimension-1)]
+    [A.set_value(i+1,i,-1) for i in range(dimension-1)]
     
     return A
 
 def source(n:int,f:Callable,alpha:int,beta:int):
     dimension = n-1
-    b = Vector(dimension)
+    b = Vector.Zero_Vector(dimension)
     h = 1/n
     for i in range(dimension):
-        b[i].set_value(h**2*f((i+1)*h))
-    b[0].set_value(b[0].get_value() + alpha/h)
-    b[dimension-1].set_value(b[dimension-1].get_value() + beta/h)
+        b.set(i,h**2*f((i+1)*h))
+    b.set(0,b.get(0) + alpha/h)
+    b.set(dimension-1,b.get(dimension-1) + beta/h)
     return b
 
 
 
 
-def solve_with_LU(n:int,f:Callable,alpha:int,beta:int):
+def solve_with_LU(n:int,f:Callable,alpha:int,beta:int) -> Tuple[Vector,float]:
     A = poisson1D(n)
     b = source(n,f,alpha,beta)
     
     lu_start_time = time.process_time()
-    res = solve_with_LU(A,b)
+    res = p1.solve_with_LU(A,b)
     lu_end_time = time.process_time()
      
     return res,lu_end_time - lu_start_time;

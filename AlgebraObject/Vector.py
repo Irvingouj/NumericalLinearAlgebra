@@ -20,6 +20,12 @@ class Vector(Matrix):
     
     def __getitem__(self, key):
         return self.get(key)
+    
+    def as_array(self):
+        return [self.get(i) for i in range(len(self.matrix))]
+    
+    def __len__(self):
+        return len(self.matrix)
         
     @classmethod
     def Zero_Vector(cls, size:int):
