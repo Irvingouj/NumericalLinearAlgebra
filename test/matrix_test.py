@@ -1,5 +1,7 @@
 import unittest
-from AlgebraObject.Matrix import Matrix
+
+from NumericalLinearAlgebra.AlgebraObject.Matrix import Matrix
+
 
 class MatrixTest(unittest.TestCase):
     def test(self):
