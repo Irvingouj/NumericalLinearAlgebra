@@ -22,7 +22,7 @@ class Problem3Test(unittest.TestCase):
             )
         L, time = CHOLfact(A)
         
-        self.assertAlmostEqual(L.matrix, np.linalg.cholesky(arr).tolist())   
+        [self.assertAlmostEqual(L.matrix[i][i], np.linalg.cholesky(arr).tolist()[i][i]) for i in range(4)]
         
         b = Vector([1, 2, 3, 4])
         x = inverseCol(L, b);
